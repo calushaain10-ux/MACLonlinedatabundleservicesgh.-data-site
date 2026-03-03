@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Michael Data Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{
+      margin:0;
+      font-family: Arial;
+      background: linear-gradient(to bottom,#0b3d91,#1e40af,#0f172a);
+      color:white;
+      text-align:center;
+    }
+    .container{padding:20px;}
+    .card{
+      background:rgba(255,255,255,0.1);
+      padding:20px;
+      margin:20px auto;
+      border-radius:15px;
+      width:90%;
+      max-width:400px;
+    }
+    button{
+      padding:10px 20px;
+      border:none;
+      border-radius:10px;
+      background:#10b981;
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+    }
+    input{
+      padding:10px;
+      width:90%;
+      border-radius:8px;
+      border:none;
+      margin-top:10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Michael Data Hub</h1>
+  <p>Buy Affordable MTN & Telecel Bundles</p>
+
+  <div class="card">
+    <h2>MTN Bundles</h2>
+    <p>1GB - GHC 5.5</p>
+    <p>2GB - GHC 11</p>
+    <p>3GB - GHC 16.5</p>
+    <input type="text" id="phone" placeholder="Enter your phone number">
+    <br><br>
+    <button onclick="order()">Order via WhatsApp</button>
+  </div>
+
+  <p>Working Hours: 7AM - 9PM</p>
+  <p>Contact: 0541712051</p>
+  <p><small>Note: Bundle delivery is not instant.</small></p>
+
+</div>
+
+<script>
+function order(){
+  var phone = document.getElementById("phone").value;
+  if(phone==""){
+    alert("Enter phone number");
+    return;
+  }
+  var message = "Hello, I want to buy MTN bundle. My number is "+phone;
+  window.open("https://wa.me/233541712051?text="+encodeURIComponent(message));
+}
+</script>
+
+</body>
+</html>
