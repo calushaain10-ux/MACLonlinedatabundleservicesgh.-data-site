@@ -32,6 +32,7 @@ footer{ margin-top:40px; padding:20px; background:black; font-size:14px; text-al
 #ai-input input{ flex:1; padding:8px; border:none; outline:none; font-size:14px; background:#111827; color:white;}
 #ai-input button{ padding:8px 12px; background:#10b981; color:white; border:none; cursor:pointer;}
 #orders-list{ text-align:left; max-height:300px; overflow-y:auto;}
+#delivery-popup{ display:none; position:fixed; top:20px; right:20px; background:#10b981; color:white; padding:12px 20px; border-radius:10px; z-index:2000; font-weight:bold;}
 </style>
 </head>
 <body>
@@ -70,7 +71,7 @@ footer{ margin-top:40px; padding:20px; background:black; font-size:14px; text-al
     <select id="bundle-select"><option disabled selected>Select bundle option</option></select>
     <input type="text" id="phone" placeholder="Enter phone number">
     <p style="color:#FFD700;font-size:14px;">Delivery: 10 minutes to 4 hours after payment</p>
-    <button id="pay-btn" onclick="pay()">Pay Now</button>
+    <button onclick="pay()">Pay Now</button>
   </div>
   <div id="dashboard-section" style="margin-top:20px;">
     <h3>My Orders</h3>
@@ -104,7 +105,7 @@ footer{ margin-top:40px; padding:20px; background:black; font-size:14px; text-al
 <p>Location: Accra, Ghana</p>
 </footer>
 
-<a href="https://chat.whatsapp.com/Es5C5AvDdBMLctjT0hBgwR" target="_blank" id="whatsapp">WhatsApp</a>
+<a href="#" target="_blank" id="whatsapp">WhatsApp</a>
 <button id="ai-btn" onclick="toggleAI()">AI</button>
 
 <div id="ai-box">
@@ -115,25 +116,7 @@ footer{ margin-top:40px; padding:20px; background:black; font-size:14px; text-al
   </div>
 </div>
 
-<!-- DELIVERY POPUP -->
-<div id="delivery-popup" style="
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:white;
-  color:black;
-  padding:15px;
-  border-radius:10px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.3);
-  width:250px;
-  display:none;
-  z-index:2000;
-">
-  <span onclick="this.parentElement.style.display='none'" 
-    style="position:absolute;top:5px;right:10px;cursor:pointer;font-weight:bold;">×</span>
-  <h4 id="delivery-title"></h4>
-  <p id="delivery-text"></p>
-</div>
+<div id="delivery-popup">Delivery Ongoing!</div>
 
 <!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
@@ -362,31 +345,18 @@ function sendAIMessage(){
     if(msg.toLowerCase().includes("mtn")) reply="AI: You selected MTN, choose your bundle from the dashboard.";
     else if(msg.toLowerCase().includes("vodafone")) reply="AI: You selected Vodafone, choose your bundle from the dashboard.";
     else if(msg.toLowerCase().includes("price")) reply="AI: Prices are shown next to each bundle in the dropdown.";
-    else if(msg.toLowerCase().includes("pay")) reply="AI: Click the '
-      messages.appendChild(aiMsg);
+    else if(msg.toLowerCase().includes("pay")) reply="AI: Click the 'Pay Now' button to proceed.";
+    else if(msg.toLowerCase().includes("order")) reply="AI: View orders from the menu -> My Orders.";
+    aiMsg.innerHTML = reply;
+    messages.appendChild(aiMsg);
     messages.scrollTop = messages.scrollHeight;
   }, 500);
 }
 
 // ================= DELIVERY POPUP =================
-function showDeliveryPopup() {
-  const now = new Date();
-  // Ghana time offset GMT+0 (or adjust if needed)
-  const hour = now.getUTCHours() + 0; // Ghana is GMT
+function checkDeliveryTime() {
   const popup = document.getElementById("delivery-popup");
-  if(hour >= 8 && hour < 21){
-    document.getElementById("delivery-title").innerText = "Delivery Ongoing";
-    document.getElementById("delivery-text").innerText = "Orders are delivered between 8:00 AM and 9:00 PM in Ghana.";
-    popup.style.display = "block";
-  } else {
-    popup.style.display = "none";
-  }
-}
-
-// Show popup after page load
-window.onload = function(){
-  showDeliveryPopup();
-};
-</script>
-</body>
-</html>
+  const now = new Date();
+  const hour = now.getHours();
+  if(hour >= 8 && hour <= 21){ // 8AM to 9PM
+    popup.style.display = "
